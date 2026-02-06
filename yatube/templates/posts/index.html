@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html> <!-- Используется html 5 версии -->
 <html lang="ru"> <!-- Язык сайта - русский -->
   <head>    
     <meta charset="utf-8"> <!-- Кодировка сайта -->
     <!-- Сайт готов работать с мобильными устройствами -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <!-- Загружаем фав-иконки -->
     <link rel="icon" href="img/fav/fav.ico" type="image">
     <link rel="apple-touch-icon" sizes="180x180" href="img/fav/apple-touch-icon.png">
@@ -22,7 +24,7 @@
       <nav class="navbar navbar-light" style="background-color: lightskyblue">
         <div class="container">
           <a class="navbar-brand" href="{% url 'posts:main' %}">
-            <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
             <!-- тег span используется для добавления нужных стилей отдельным участкам текста -->
             <span style="color:red">Ya</span>tube
           </a>
@@ -50,7 +52,7 @@
             и Бабарыкинымъ, ругалъ Сержпутовскому и ничего не сдѣлалъ, вотъ 3 упрека, которыя дѣлаю с
             ебѣ за нынѣшній день. (3)
           </p>
-          <a href="group/">все записи группы</a>
+          <a href="{% url 'posts:group_list' slug='test'%}">все записи группы</a>
         </article>
         <hr>
         <article>
@@ -74,7 +76,7 @@
             накрылъ Крыжановскій, что, признаюсь, было мнѣ не совсѣмъ пріятно. Упрекаю себя за 
             безхарактерность, что не высидѣлъ дома, и зa праздность цѣлаго дня. Это главный пунктъ. (2)
           </p>
-          <a href="group_list.html">все записи группы</a>
+          <a href="{% url 'posts:group_list' slug='test'%}">все записи группы</a>
         </article>
         <hr>
         <article>
@@ -94,7 +96,7 @@
             Гембичомъ, потомъ болталъ съ Шубинымъ и съ Сашей Горчаковымъ. — Исключая праздности, 
             днемъ своимъ очень доволенъ. (1)
           </p>
-          <a href="group_list.html">все записи группы</a>
+          <a href="{% url 'posts:group_list' slug='test'%}">все записи группы</a>
         </article>
         <!-- под последним постом нет линии -->
       </div>  
