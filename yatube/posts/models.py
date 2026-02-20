@@ -5,6 +5,10 @@ User = get_user_model()
 
 
 class Group(models.Model):
+    """
+    Модель группы (сообщества).
+    Группа объединяет посты по общей тематике.
+    """
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()

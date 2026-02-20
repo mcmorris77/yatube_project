@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Технологии{% endblock %}
+{% block content %}
+{% comment %} Колонки с отступом сверху и снизу {% endcomment %}
+<div class="container py-5">
+  <h1 calss="mb-4">Технологии проекта</h1>
+  
+  <aside class="col-12 col-md-4 mb-4">
+    <h4>Использованные технологии</h4>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Python</li>
+      <li class="list-group-item">Django</li>
+      <li class="list-group-item">ChatGPT</li>
+      <li class="list-group-item">Claude</li>
+    </ul>
+  </aside>
+
+  <article class="col-12 col-md-8">
+    <h4>Что было реализованно</h4>
+    <ul>
+        <li>Понимание структуры Django-проекта</li>
+        <li>Работа с шаблонами и блоками</li>
+        <li>Настройка static-файлов</li>
+        <li>Использование Bootstrap-сетки</li>
+    </ul>
+
+    <h4>Нестандартный подход</h4>
+    <p>
+        В процессе разработки я старался придерживаться принципа
+        чистой структуры проекта и разделения ответственности:
+        логика — во views, отображение — в templates.
+    </p>
+
+  </article>
+</div>
+{% endblock %} 

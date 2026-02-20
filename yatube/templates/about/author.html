@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Об авторе{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1>Об авторе</h1>
+  <p>
+   Меня зовут Нейт. Я начинающий Python-разработчик и изучаю Django.
+  </p>
+
+  
+  <h3>А это мое рабочее место</h3>
+  <img src="{% static 'img/workspace.jpg' %}" alt="Моё рабочее место" style="max-width: 600px;" class="img-fluid">
+
+  
+  
+  <h3>Цифры те же</h3>
+  <p>
+    <a href="https://github.com/mcmorris77">Мой GitHub</a>
+  </p>
+</div>
+{% endblock %}
