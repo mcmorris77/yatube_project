@@ -33,6 +33,13 @@
             все посты пользователя
           </a>
         </li>
+        {% if user.is_authenticated and user == post.author %}
+        <li class="list-group-item">
+          <a href="{% url 'posts:post_edit' post.pk %}" class="btn btn-primary">
+            Редактировать
+          </a>
+        </li>
+        {% endif %}
       </ul>
     </aside>
     
