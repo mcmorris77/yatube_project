@@ -19,7 +19,7 @@ class Group(models.Model):
 
 class Post(models.Model):
     def __str__(self):
-        return self.text
+        return self.text[:15]
     
     text = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
@@ -34,5 +34,5 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name='posts'
+        related_name='posts',
     )
