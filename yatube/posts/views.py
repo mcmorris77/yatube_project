@@ -109,7 +109,7 @@ def post_edit(request, pk):
             # Сохраняем изменения
             form.save()
             # Отправляем на страницу этого поста
-            return redirect('posts:post_detail', post_id=post_id)
+            return redirect('posts:post_detail', pk=pk)
     else:
         # Пользователь открыл страницу редактирования
         # Создаём форму, заполненную данными поста

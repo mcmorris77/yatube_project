@@ -99,7 +99,7 @@ class PostURLTest(TestCase):
     def test_post_edit_url_redirect_anonymous(self):
         """Страница редактирования перенаправляет анонимного пользователя."""
         response = self.guest_client.get(
-            f'/post/{self.post.pk}/edit/',
+            f'/posts/{self.post.pk}/edit/',
             follow=True,
         )
         self.assertRedirects(
@@ -110,7 +110,7 @@ class PostURLTest(TestCase):
     def test_post_edit_url_redirect_not_author(self):
         """Страница редактирования перенаправляет не-автора на просмотр поста."""
         response = self.other_client.get(
-            f'/post/{self.post.pk}/edit/',
+            f'/posts/{self.post.pk}/edit/',
             follow=True,
         )
         self.assertRedirects(
@@ -121,7 +121,7 @@ class PostURLTest(TestCase):
     def test_post_edit_url_exists_at_desired_location_author(self):
         """Страница редактирования доступна автору поста."""
         response = self.authorized_client.get(
-            f'/post/{self.post.pk}/edit/',
+            f'/posts/{self.post.pk}/edit/',
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
