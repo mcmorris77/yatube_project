@@ -21,7 +21,7 @@
                 {% endif %}
               </div>
               <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <div class="form-group row my-3 p-3">
                     <label for="id_text">
@@ -46,6 +46,8 @@
                       Группа, к которой будет относиться пост
                     </small>
                   </div>
+
+
                   <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                       {% if is_edit %}

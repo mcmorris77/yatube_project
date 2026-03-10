@@ -93,17 +93,19 @@ def post_edit(request, pk):
     # Получаем пост по ID
     post = get_object_or_404(Post, pk=pk)
 
-    # Проверяем: является ли текущий пользователь автором?
     if post.author != request.user:
         # Проверяем является ли пользователь автором поста
         return redirect('posts:post_detail', pk=post.pk)
 
-    # Да, это автор → разрешаем редактирование
 
     if request.method == 'POST':
         # Пользователь отправил форму с изменениями
         # instance=post — говорим форме, какой пост редактируем
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(
+            request.POST or None,
+            files=request.FILES or None,
+            instance=post
+        )
 
         if form.is_valid():
             # Сохраняем изменения
@@ -117,6 +119,6 @@ def post_edit(request, pk):
 
     context = {
         'form': form,
-        'is_edit': True,  # ← Флаг для шаблона
+        'is_edit': True,
     }
     return render(request, 'posts/create_post.html', context)

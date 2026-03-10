@@ -5,7 +5,7 @@ class PostForm(forms.ModelForm):
     """" Форма для создания постов """
     class Meta:
         model = Post
-        fields = ('text', 'group')
+        fields = ('text', 'group', 'image')
         labels = {
             'text': 'Текст поста',
             'group': 'Группа ',

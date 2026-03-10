@@ -1,3 +1,4 @@
+{% load thumbnail %}
 {% extends 'base.html' %}
 
 {% block title %}Пост {{ post.text|truncatewords:5 }}{% endblock %}
@@ -42,7 +43,9 @@
         {% endif %}
       </ul>
     </aside>
-    
+    {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+      <img class="card-img my-2" src="{{ im.url }}">
+    {% endthumbnail %}
     <article class="col-12 col-md-9">
       <p>{{ post.text }}</p>
     </article>
