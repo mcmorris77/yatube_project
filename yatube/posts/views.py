@@ -9,6 +9,7 @@ from .forms import PostForm
 User = get_user_model()
 
 def index(request):
+    """Главная страница"""
     post_list = Post.objects.all().order_by('-pub_date')
     
     paginator = Paginator(post_list, 10)
@@ -24,15 +25,22 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 def group_posts(request, slug):
+    """Страница группы с постами"""
     group = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
+    posts = group.posts.select_related('author').all()
+
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'group': group,
-        'posts': posts,
+        'page_obj': page_obj,
     }
     return render(request, 'posts/group_list.html', context)
 
 def profile(request, username):
+    """Профиль пользователя"""
     author = get_object_or_404(User, username=username)
     posts = author.posts.select_related('author', 'group').all()
 
@@ -47,6 +55,7 @@ def profile(request, username):
     return render(request, 'posts/profile.html', context)
 
 def post_detail(request, pk):
+    """Детали поста"""
     post = get_object_or_404(
         Post.objects.select_related('author', 'group'),
         pk=pk
@@ -64,7 +73,10 @@ def post_create(request):
 
     if request.method == 'POST':
         # Пользователь отправил форму
-        form = PostForm(request.POST)
+        form = PostForm(
+            request.POST,
+            files=request.FILES or None  # ← ДОБАВЛЕНО!
+        )
 
         if form.is_valid():
             # Форма заполнена правильно

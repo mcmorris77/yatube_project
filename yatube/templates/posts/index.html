@@ -1,20 +1,30 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}Последние обновления на сайте{% endblock %}
-{% block header %}Последние обновления на сайте{% endblock %}
 {% block content %}
-  <div class="container py-5">     
-    <h1>{{ title }}</h1>
+  <div class="container py-5">
     {% for post in page_obj %}
       <article>
         <ul>
-          <li>Автор: {{ post.author }}</li>
-          <li>Дата публикации: {{ post.pub_date }}</li>
-        </ul>      
+          <li>
+            Автор: {{ post.author }}
+            <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+          </li>
+          <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
+        </ul>
+
+        {% if post.image %}
+          {% thumbnail post.image "960*339" crop="center" upscale=True as im %}
+            <img class="card-img my-2" src="{{ im.url }}" alt="{{ post.text|truncatewords:10 }}">
+          {% endthumbnail %}
+        {% endif %}
+
         <p>{{ post.text }}</p>
+        <a href="{% url 'posts:post_detail' post.pk %}">подробная информация</a>
+
         {% if post.group %}
-          <a href="{% url 'posts:group_list' post.group.slug %}">
-            все записи группы
-          </a>
+          <br>
+          <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
         {% endif %}
       </article>
       <hr>
