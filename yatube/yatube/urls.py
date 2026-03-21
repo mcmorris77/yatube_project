@@ -18,6 +18,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
 handler404 = 'core.views.page_not_found'
 urlpatterns = [

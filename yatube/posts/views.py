@@ -1,13 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Group
+from django.views.decorators.cache import cache_page
+
+from .models import Post, Group, Comment
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
 User = get_user_model()
 
+@cache_page(20)
 def index(request):
     """Главная страница"""
     post_list = Post.objects.all().order_by('-pub_date')
@@ -60,9 +63,13 @@ def post_detail(request, pk):
         Post.objects.select_related('author', 'group'),
         pk=pk
     )
-    
+
+    comments = post.comments.select_related('author').all()
+    form = CommentForm()
     context = {
         'post': post,
+        'comments': comments,
+        'form': form,
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -134,3 +141,15 @@ def post_edit(request, pk):
         'is_edit': True,
     }
     return render(request, 'posts/create_post.html', context)
+
+@login_required
+def add_comment(request, pk):
+    """Добавление комментария к посту."""
+    post = get_object_or_404(Post, pk=pk)
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    return redirect('posts:post_detail', pk=pk)

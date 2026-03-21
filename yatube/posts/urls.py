@@ -10,6 +10,7 @@ urlpatterns = [
     path('posts/<int:pk>/', views.post_detail, name='post_detail'),
     path('create/', views.post_create, name='post_create'),
     path('posts/<int:pk>/edit/', views.post_edit, name='post_edit'),
+    path('posts/<int:pk>/comment/', views.add_comment, name='add_comment'),
     path('auth/', include('django.contrib.auth.urls'))
 
 ]

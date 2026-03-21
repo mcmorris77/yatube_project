@@ -1,5 +1,6 @@
+{% extends "base.html" %}
 {% load thumbnail %}
-{% extends 'base.html' %}
+{% load user_filters %}
 
 {% block title %}Пост {{ post.text|truncatewords:5 }}{% endblock %}
 
@@ -50,6 +51,42 @@
         {% endthumbnail %}
       {% endif %}
       <p>{{ post.text }}</p>
+      <hr>
+      {% if user.is_authenticated %}
+      <div class="card my-4">
+        <h5 class="card-header">Добавить комментарий</h5>
+        <div class="card-body">
+          <form method="post" action="{% url 'posts:add_comment' post.id %}">
+            {% csrf_token %}
+            <div class="form-group mb-2">
+              {{ form.text|addclass:"form-control" }}
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Список комментариев -->
+      <h5 class="mt-4">Комментарии ({{ comments.count }}):</h5>
+
+      {% for comment in comments %}
+      <div class="media mb-4">
+        <div class="media-body">
+          <h6 class="mt-0">
+            <a href="{% url 'posts:profile' comment.author.username %}">
+              {{ comment.author.username }}
+            </a>
+            <small class="text-muted">{{ comment.created|date:"d E Y, H:i" }}</small>
+          </h6>
+          <p>{{ comment.text }}</p>
+        </div>
+      </div>
+      <hr>
+      {% empty %}
+      <p class="text-muted">Комментариев пока нет. Будьте первым!</p>
+      {% endfor %}
+
     </article>
   </div>
 </div>
