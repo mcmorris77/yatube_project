@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.cache import cache_page
 
-from .models import Post, Group, Comment
+from .models import Post, Group, Comment, Follow
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -41,6 +41,7 @@ def group_posts(request, slug):
         'page_obj': page_obj,
     }
     return render(request, 'posts/group_list.html', context)
+
 
 def profile(request, username):
     """Профиль пользователя"""
@@ -153,3 +154,47 @@ def add_comment(request, pk):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', pk=pk)
+
+@login_required
+def follow_index(request):
+    """Страница подписок"""
+    posts = Post.objects.filter(
+        author__following__user=request.user
+    ).select_related('author', 'group').all()
+
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+    }
+    return render(request, 'posts/follow_index.html', context)
+
+@login_required
+def profile_follow(request, username):
+    # Подписаться на автора
+    author = get_object_or_404(User, username=username)
+
+    # Нельзя подписаться на самого себя
+    if request.user != author:
+        Follow.objects.get_or_create(
+            user = request.user,
+            author = author
+        )
+
+    return redirect('posts:profile', username=username)
+
+
+@login_required
+def profile_unfollow(request, username):
+    # Дизлайк, отписка
+    author = get_object_or_404(User, username=username)
+
+    # Отписка от автора
+    Follow.objects.filter(
+        user=request.user,
+        author=author
+    ).delete()
+
+    return redirect('posts:profile', username=username)

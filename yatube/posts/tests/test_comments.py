@@ -1,7 +1,4 @@
-'''Задание 2
-Напишите тесты, которые проверяют, что
-* комментировать посты может только авторизованный пользователь;
-* после успешной отправки комментарий появляется на странице поста.'''
+
 from django.contrib.auth import get_user_model
 from posts.models import Post, Comment, Group
 from django.test import TestCase, Client
